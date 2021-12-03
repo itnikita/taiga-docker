@@ -10,7 +10,7 @@ x-environment:
   # Taiga settings
   TAIGA_SECRET_KEY: "taiga-back-secret-key"
   TAIGA_SITES_SCHEME: "http"
-  TAIGA_SITES_DOMAIN: "localhost:9000"
+  TAIGA_SITES_DOMAIN: "192.168.9.67:80"
   TAIGA_SUBPATH: "" # "" or "/subpath"
   # Email settings. Uncomment following lines and configure your SMTP server
   # EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
@@ -27,6 +27,7 @@ x-environment:
   RABBITMQ_PASS: taiga
   # Telemetry settings
   ENABLE_TELEMETRY: "True"
+  PUBLIC_REGISTER_ENABLED: "True"
 
 x-volumes:
   &default-back-volumes
@@ -50,6 +51,7 @@ services:
   taiga-back:
     image: taigaio/taiga-back:latest
     environment: *default-back-environment
+    #  PUBLIC_REGISTER_ENABLED: "True"
     volumes: *default-back-volumes
     networks:
       - taiga
@@ -85,9 +87,10 @@ services:
   taiga-front:
     image: taigaio/taiga-front:latest
     environment:
-      TAIGA_URL: "http://localhost:9000"
-      TAIGA_WEBSOCKETS_URL: "ws://localhost:9000"
+      TAIGA_URL: "http://192.168.9.67:80"
+      TAIGA_WEBSOCKETS_URL: "ws://192.168.9.67:80"
       TAIGA_SUBPATH: "" # "" or "/subpath"
+      PUBLIC_REGISTER_ENABLED: "true"
     networks:
       - taiga
     # volumes:
